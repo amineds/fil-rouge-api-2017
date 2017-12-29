@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 // TODO: Configure the filter to match ALL endpoints (except for the login endpoint)
 // This annotation replaces the registration of the filter and its URL mappings in web.xml.
-@WebFilter(urlPatterns = "/movies")
+//@WebFilter(urlPatterns = {"/movies","/movies/*"})
 public class AuthFilter implements Filter {
 
     // Pre-compile a Regex matcher for the Authorization header

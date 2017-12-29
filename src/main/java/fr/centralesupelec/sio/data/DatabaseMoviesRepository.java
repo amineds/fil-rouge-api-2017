@@ -1,6 +1,7 @@
 package fr.centralesupelec.sio.data;
 
 import fr.centralesupelec.sio.model.Movie;
+import fr.centralesupelec.sio.model.People;
 
 import java.util.List;
 
@@ -22,4 +23,9 @@ class DatabaseMoviesRepository extends MoviesRepository {
         throw new UnsupportedOperationException("Not implemented!");
     }
 
+    @Override
+    public List<People> getPeople(String speciality) {
+        // TODO
+        throw new UnsupportedOperationException("Not implemented!");
+    }
 }

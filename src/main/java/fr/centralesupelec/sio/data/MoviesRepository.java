@@ -1,7 +1,10 @@
 package fr.centralesupelec.sio.data;
 
 import fr.centralesupelec.sio.model.Movie;
+import fr.centralesupelec.sio.model.MovieGenre;
+import fr.centralesupelec.sio.model.People;
 
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -18,6 +21,7 @@ public abstract class MoviesRepository {
 
     /**
      * Obtain a shared instance of the repository.
+     *
      * @return The shared {@link MoviesRepository} instance.
      */
     // Singleton pattern: Expose a public static method to obtain the unique instance.
@@ -34,10 +38,12 @@ public abstract class MoviesRepository {
 
     // Singleton pattern: Prevent instantiation of the class from the outside using a restrictive visibility modifier.
     // The only way to get a MovieRepository from the outside is MovieRepository.getInstance().
-    protected MoviesRepository() { }
+    protected MoviesRepository() {
+    }
 
     /**
      * Query all available movies.
+     *
      * @return A list of {@link Movie} entities.
      */
     // We only define the interface of a repository, concrete implementation is delegated to subclasses.
@@ -56,4 +62,15 @@ public abstract class MoviesRepository {
 
     // TODO: Add other movie-related methods here
 
+    // Return genres of movies as an hashtable : enumCode - enumValue
+    public static Hashtable getGenres() {
+        Hashtable<String,MovieGenre> genres = new Hashtable();
+        for (MovieGenre g : MovieGenre.values()) {
+            genres.put(g.getGenreCode(),g);
+        }
+        return genres;
+    }
+
+    // Return list of actors in the directory
+    public abstract List<People> getPeople(String speciality);
 }
