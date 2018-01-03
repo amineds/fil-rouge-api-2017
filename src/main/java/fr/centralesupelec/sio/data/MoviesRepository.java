@@ -58,7 +58,7 @@ public abstract class MoviesRepository {
     // - return null.
     // - use java.util.Optional<Movie> as the return type, which explicitly handles the missing case.
     // - throw an exception, such as java.util.NoSuchElementException.
-    public abstract Movie getMovie(long id);
+    public abstract Movie getMovie(long id,String text);
 
     // TODO: Add other movie-related methods here
 

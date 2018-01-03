@@ -20,11 +20,18 @@ public class PeopleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String speciality = req.getParameter("spec");
-        List<People> people = MoviesRepository.getInstance().getPeople(speciality);
 
-        // Write to the response.
-        ResponseHelper.writeJsonResponse(resp, people);
-
+        if (speciality != null) {
+            List<People> people = MoviesRepository.getInstance().getPeople(speciality);
+            if (people != null) {
+                // Write to the response.
+                ResponseHelper.writeJsonResponse(resp, people);
+            } else {
+                ResponseHelper.writeError(resp, "People not found", HttpServletResponse.SC_NOT_FOUND);
+            }
+        } else {
+            ResponseHelper.writeError(resp, "People not found", HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
 }

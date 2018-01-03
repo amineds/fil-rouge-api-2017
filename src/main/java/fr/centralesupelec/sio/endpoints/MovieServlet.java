@@ -15,7 +15,7 @@ import java.io.IOException;
  * A data servlet to access a single {@link Movie} entity.
  */
 // The following pattern will match for instance /movies/123.
-@WebServlet(urlPatterns = "/movies/*")
+@WebServlet(urlPatterns = "/movie/*")
 public class MovieServlet extends HttpServlet {
 
     // This method will be called in case of a GET request.
@@ -24,16 +24,19 @@ public class MovieServlet extends HttpServlet {
         // We need to extract the id of the movie from the URL.
         // We can obtain it from req.getPathInfo() by removing the leading "/" with substring().
         // And we parse this String as a number.
+
         long id;
         try {
-            id = Long.parseLong(req.getPathInfo().substring(1));
+            id = Long.parseLong(req.getParameter("id"));
         } catch (NumberFormatException ex) {
             ResponseHelper.writeError(resp, "Invalid id", HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
+        String text = req.getParameter("title");
+
         // Find movie from the repository.
-        Movie movie = MoviesRepository.getInstance().getMovie(id);
+        Movie movie = MoviesRepository.getInstance().getMovie(id,text);
         if (movie != null) {
             ResponseHelper.writeJsonResponse(resp, movie);
         } else {

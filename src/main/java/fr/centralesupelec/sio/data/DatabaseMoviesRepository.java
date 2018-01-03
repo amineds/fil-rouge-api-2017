@@ -18,7 +18,7 @@ class DatabaseMoviesRepository extends MoviesRepository {
     }
 
     @Override
-    public Movie getMovie(long id) {
+    public Movie getMovie(long id, String text) {
         // TODO
         throw new UnsupportedOperationException("Not implemented!");
     }

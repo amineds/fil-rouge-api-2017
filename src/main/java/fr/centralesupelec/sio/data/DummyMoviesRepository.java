@@ -1,10 +1,12 @@
 package fr.centralesupelec.sio.data;
 
+import fr.centralesupelec.sio.endpoints.utils.ResponseHelper;
 import fr.centralesupelec.sio.model.Movie;
 import fr.centralesupelec.sio.model.MovieGenre;
 import fr.centralesupelec.sio.model.People;
 import fr.centralesupelec.sio.model.PeopleSpeciality;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -25,17 +27,20 @@ class DummyMoviesRepository extends MoviesRepository {
 
         // person n°1
         People p1 = new People();
+        p1.setId(1);
         p1.setFirstName("Lary");
         p1.setLastName("Page");
         p1.setSpecialities(EnumSet.of(PeopleSpeciality.ACTOR, PeopleSpeciality.MUSICIAN));
 
         // person n°2
         People p2 = new People();
+        p2.setId(2);
         p2.setFirstName("Jimmy");
         p2.setLastName("House");
         p2.setSpecialities(EnumSet.of(PeopleSpeciality.DIRECTOR));
 
         People p3 = new People();
+        p3.setId(3);
         p3.setFirstName("Boy");
         p3.setLastName("Bad");
         p3.setSpecialities(EnumSet.of(PeopleSpeciality.ACTOR, PeopleSpeciality.DIRECTOR));
@@ -72,13 +77,20 @@ class DummyMoviesRepository extends MoviesRepository {
 
     @Override
     public List<People> getPeople(String speciality) {
+
+        PeopleSpeciality spec;
+        try {
+            spec = PeopleSpeciality.valueOf(speciality);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
         return mPeople.parallelStream()
-                .filter(people -> people.getSpecialities().contains(PeopleSpeciality.valueOf(speciality)))
-                .collect(Collectors.toList());
+                  .filter(people -> people.getSpecialities().contains(spec))
+                  .collect(Collectors.toList());
     }
 
     @Override
-    public Movie getMovie(long id) {
+    public Movie getMovie(long id, String text) {
         // See DummyAccountsRepository for more details and variants.
         return mMovies.parallelStream()
                 .filter(movie -> movie.getId() == id)
