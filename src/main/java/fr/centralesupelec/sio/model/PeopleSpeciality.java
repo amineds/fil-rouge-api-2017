@@ -1,7 +1,7 @@
 package fr.centralesupelec.sio.model;
 
 /**
- * An enum for people functions in a movie.
+ * An enum for people specialities in a movie.
  */
 public enum PeopleSpeciality {
 

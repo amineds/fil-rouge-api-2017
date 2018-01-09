@@ -19,6 +19,7 @@ public class PeopleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        //TODO: add comments here
         String speciality = req.getParameter("spec");
 
         if (speciality != null) {

@@ -14,11 +14,11 @@ public enum MovieGenre {
     THRILLER ("THR"),
     SCIENCE_FICTION ("SCI");
 
+    private String genreCode;
+
     MovieGenre(String code) {
         this.genreCode = code;
     }
-
-    private String genreCode;
 
     public String getGenreCode() {
         return genreCode;

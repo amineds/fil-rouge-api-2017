@@ -21,7 +21,6 @@ public class GenresServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // Get movies from the repository.
-        // TODO: Add pagination parameters
         Hashtable genres = MoviesRepository.getInstance().getGenres();
 
         // Write to the response.

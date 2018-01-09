@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A data servlet to access a single {@link Movie} entity.
@@ -21,26 +23,30 @@ public class MovieServlet extends HttpServlet {
     // This method will be called in case of a GET request.
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // We need to extract the id of the movie from the URL.
-        // We can obtain it from req.getPathInfo() by removing the leading "/" with substring().
-        // And we parse this String as a number.
 
-        long id;
+        /*long id;
         try {
             id = Long.parseLong(req.getParameter("id"));
         } catch (NumberFormatException ex) {
             ResponseHelper.writeError(resp, "Invalid id", HttpServletResponse.SC_NOT_FOUND);
             return;
-        }
+        }*/
 
         String text = req.getParameter("title");
+        int offset = Integer.parseInt(req.getParameter("offset"));
+        int limit = Integer.parseInt(req.getParameter("limit"));
+        String[] genres =  req.getParameter("genres").split(",");
+        long[] directors = Arrays.stream(req.getParameter("directors").split(","))
+                         .mapToLong(Long::parseLong)
+                         .toArray();
 
         // Find movie from the repository.
-        Movie movie = MoviesRepository.getInstance().getMovie(id,text);
-        if (movie != null) {
+        List<Movie> movie = MoviesRepository.getInstance().getMovie(text, offset, limit,genres,directors);
+        if (!movie.isEmpty()) {
             ResponseHelper.writeJsonResponse(resp, movie);
         } else {
-            ResponseHelper.writeError(resp, "Movie not found", HttpServletResponse.SC_NOT_FOUND);
+            ResponseHelper.writeJsonResponse(resp, directors);
+            //ResponseHelper.writeError(resp, "Movie not found", HttpServletResponse.SC_NOT_FOUND);
         }
     }
 

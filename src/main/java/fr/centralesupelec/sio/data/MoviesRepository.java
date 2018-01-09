@@ -50,15 +50,8 @@ public abstract class MoviesRepository {
     // TODO: Add another method or parameters for pagination (get a subset of the list)
     public abstract List<Movie> getMovies();
 
-    /**
-     * @param id: The id of the movie.
-     * @return The {@link Movie} entity, or null of the movie does not exist.
-     */
-    // We have several choices to handle the problem of unknown id:
-    // - return null.
-    // - use java.util.Optional<Movie> as the return type, which explicitly handles the missing case.
-    // - throw an exception, such as java.util.NoSuchElementException.
-    public abstract Movie getMovie(long id,String text);
+    //TODO : add comment here
+    public abstract List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors);
 
     // TODO: Add other movie-related methods here
 
