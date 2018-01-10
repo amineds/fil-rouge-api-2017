@@ -18,7 +18,7 @@ class DatabaseMoviesRepository extends MoviesRepository {
     }
 
     @Override
-    public List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors) {
+    public List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors, long[] actors) {
         // TODO
         throw new UnsupportedOperationException("Not implemented!");
     }

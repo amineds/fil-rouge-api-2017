@@ -51,7 +51,7 @@ public abstract class MoviesRepository {
     public abstract List<Movie> getMovies();
 
     //TODO : add comment here
-    public abstract List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors);
+    public abstract List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors, long[] actors);
 
     // TODO: Add other movie-related methods here
 

@@ -16,7 +16,7 @@ import java.util.List;
  * A servlet to access the list of {@link Movie}s.
  */
 // The following pattern will exactly match /movies only.
-@WebServlet(urlPatterns = "/movies")
+@WebServlet(urlPatterns = "/moviesssss")
 public class MoviesServlet extends HttpServlet {
 
     @Override

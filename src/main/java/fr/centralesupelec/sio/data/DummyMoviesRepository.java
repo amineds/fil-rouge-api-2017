@@ -90,28 +90,43 @@ class DummyMoviesRepository extends MoviesRepository {
     }
 
     @Override
-    public List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors) {
+    public List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors, long[] actors) {
 
-        // checking if the movie genres exist to avoid exception be raised
-        //setting variale to final becaused used in a lambda expression
-        final EnumSet<MovieGenre> genresList; EnumSet<MovieGenre> genresList1 = EnumSet.noneOf(MovieGenre.class);
-        for (String genre : genres) {
-            MovieGenre mGenre;
-            try { mGenre = MovieGenre.valueOf(genre.toUpperCase()); }
+        // if the user indicated no movie genre, we should consider all of them in the filter
+        EnumSet<MovieGenre> genresList = EnumSet.noneOf(MovieGenre.class);
+        if (genres.length != 0) {
+             // here we handle the genres filled in
+            for (String genre : genres) {
+                MovieGenre mGenre;
+                // checking if the movie genres exist to avoid exception be raised
+                try { mGenre = MovieGenre.valueOf(genre.toUpperCase()); }
                 // if genre is not found do nothing
                 catch (IllegalArgumentException ex) {mGenre=null;}
-            if (mGenre != null) {
-                genresList1.add(mGenre);
+                if (mGenre != null) {
+                    genresList.add(mGenre);
+                }
             }
         }
-        genresList = genresList1;
+        //todo : add comments here
         Arrays.sort(directors);
+        Arrays.sort(actors);
 
-        // TODO: add comments here
+        // TODO: add comments here (test se fait à chaque variable
         return mMovies.parallelStream()
+                //filtering on title
                 .filter(movie -> movie.getTitle().toLowerCase().contains(text.toLowerCase()))
-                .filter(movie -> movie.getGenres().stream().anyMatch(movieGenre -> genresList.contains(movieGenre)))
-                .filter(movie -> movie.getDirectors().stream().anyMatch(pp -> Arrays.binarySearch(directors,pp.getId())>= 0))
+                //filtering on movie genre
+                .filter(movie -> movie.getGenres().stream().anyMatch(movieGenre -> {
+                    if (genresList.isEmpty()) {return true;}
+                    return genresList.contains(movieGenre);
+                }))
+                //filtering on directors
+                .filter(movie -> { if (directors.length == 0) {return true;}
+                    return movie.getDirectors().stream().anyMatch(pp -> Arrays.binarySearch(directors, pp.getId()) >= 0);
+                })
+                .filter(movie -> { if (actors.length == 0) {return true;}
+                    return movie.getDirectors().stream().anyMatch(pp -> Arrays.binarySearch(actors, pp.getId()) >= 0);
+                })
                 .skip(offset).limit(limit)
                 .collect(Collectors.toList());
     }
