@@ -125,7 +125,7 @@ class DummyMoviesRepository extends MoviesRepository {
                     return movie.getDirectors().stream().anyMatch(pp -> Arrays.binarySearch(directors, pp.getId()) >= 0);
                 })
                 .filter(movie -> { if (actors.length == 0) {return true;}
-                    return movie.getDirectors().stream().anyMatch(pp -> Arrays.binarySearch(actors, pp.getId()) >= 0);
+                    return movie.getActors().stream().anyMatch(pp -> Arrays.binarySearch(actors, pp.getId()) >= 0);
                 })
                 .skip(offset).limit(limit)
                 .collect(Collectors.toList());
