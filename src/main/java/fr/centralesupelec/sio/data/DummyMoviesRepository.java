@@ -46,34 +46,34 @@ class DummyMoviesRepository extends MoviesRepository {
         m1.setId(1);
         m1.setTitle("Lord of the Rings: The Return of the King");
         m1.setGenres(EnumSet.of(MovieGenre.FANTASY,MovieGenre.ACTION));
-        m1.setActors(Arrays.asList(p1));
-        m1.setDirectors(Arrays.asList(p2));
+        m1.setActors(new long[]{1});
+        m1.setDirectors(new long[]{2});
 
-        // movie n°1
+        // movie n°2
         Movie m2 = new Movie();
         m2.setId(2);
         m2.setTitle("Star Wars VIII: The Last Jedi");
         m2.setGenres(EnumSet.of(MovieGenre.SCIENCE_FICTION,MovieGenre.COMEDY,MovieGenre.THRILLER));
-        m2.setActors(Arrays.asList(p1));
-        m2.setDirectors(Arrays.asList(p3));
+        m2.setActors(new long[]{1});
+        m2.setDirectors(new long[]{3});
 
         // movie n°3
         Movie m3 = new Movie();
         m3.setId(3);
         m3.setTitle("Kingsman 2: The Golden Circle");
         m3.setGenres(EnumSet.of(MovieGenre.COMEDY, MovieGenre.ACTION));
-        m3.setActors(Arrays.asList(p3));
-        m3.setDirectors(Arrays.asList(p3));
+        m3.setActors(new long[]{3});
+        m3.setDirectors(new long[]{3});
 
         //data objects
         mMovies = Arrays.asList(m1, m2, m3);
         mPeople = Arrays.asList(p1, p2, p3);
     }
 
-    @Override
+    /*@Override
     public List<Movie> getMovies() {
         return mMovies;
-    }
+    }*/
 
     @Override
     public List<People> getPeople(String speciality) {
@@ -107,11 +107,13 @@ class DummyMoviesRepository extends MoviesRepository {
                 }
             }
         }
-        //todo : add comments here
+        //sorting both arrays to ease binay search below
         Arrays.sort(directors);
         Arrays.sort(actors);
 
-        // TODO: add comments here (test se fait à chaque variable
+        //check if a variable has a value or not, if not set the test as true
+        //heavy as method as check is done for every member of the stream
+        //should fine a convenient method to check variable and avoid doing filtering if not appropriate
         return mMovies.parallelStream()
                 //filtering on title
                 .filter(movie -> movie.getTitle().toLowerCase().contains(text.toLowerCase()))
@@ -122,10 +124,10 @@ class DummyMoviesRepository extends MoviesRepository {
                 }))
                 //filtering on directors
                 .filter(movie -> { if (directors.length == 0) {return true;}
-                    return movie.getDirectors().stream().anyMatch(pp -> Arrays.binarySearch(directors, pp.getId()) >= 0);
+                    return Arrays.stream(movie.getDirectors()).anyMatch(id -> Arrays.binarySearch(directors,id) >= 0);
                 })
                 .filter(movie -> { if (actors.length == 0) {return true;}
-                    return movie.getActors().stream().anyMatch(pp -> Arrays.binarySearch(actors, pp.getId()) >= 0);
+                    return Arrays.stream(movie.getActors()).anyMatch(id -> Arrays.binarySearch(actors, id) >= 0);
                 })
                 .skip(offset).limit(limit)
                 .collect(Collectors.toList());

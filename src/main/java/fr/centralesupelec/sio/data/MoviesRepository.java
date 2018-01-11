@@ -30,8 +30,8 @@ public abstract class MoviesRepository {
         if (sRepository == null) {
             // Here we choose which concrete class to use for the repository.
             // This choice is not visible to the outside, since the singleton only exposes the parent abstract class.
-            sRepository = new DummyMoviesRepository();
-            //sRepository = new DatabaseMoviesRepository();
+            //sRepository = new DummyMoviesRepository();
+            sRepository = new DatabaseMoviesRepository();
         }
         return sRepository;
     }
@@ -47,13 +47,10 @@ public abstract class MoviesRepository {
      * @return A list of {@link Movie} entities.
      */
     // We only define the interface of a repository, concrete implementation is delegated to subclasses.
-    // TODO: Add another method or parameters for pagination (get a subset of the list)
-    public abstract List<Movie> getMovies();
+    // public abstract List<Movie> getMovies(); // no longer needed - below function do all the job
 
-    //TODO : add comment here
+    //function below helps to get movies per parameter, implementation is done in concrete classes
     public abstract List<Movie> getMovie(String text, int offset, int limit, String[] genres, long[] directors, long[] actors);
-
-    // TODO: Add other movie-related methods here
 
     // Return genres of movies as an hashtable : enumCode - enumValue
     public static Hashtable getGenres() {

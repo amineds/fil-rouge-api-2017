@@ -13,8 +13,8 @@ public class Movie {
     // MovieGenre is an enum, combinations of enums are best handled by EnumSet.
     private EnumSet<MovieGenre> genres;
 
-    private List<People> directors;
-    private List<People> actors;
+    private long[] directors;
+    long[] actors;
 
     public long getId() {
         return id;
@@ -40,19 +40,19 @@ public class Movie {
         this.genres = genres;
     }
 
-    public List<People> getDirectors() {
+    public long[] getDirectors() {
         return directors;
     }
 
-    public void setDirectors(List<People> directors) {
+    public void setDirectors(long[] directors) {
         this.directors = directors;
     }
 
-    public List<People> getActors() {
+    public long[] getActors() {
         return actors;
     }
 
-    public void setActors(List<People> actors) {
+    public void setActors(long[] actors) {
         this.actors = actors;
     }
 }

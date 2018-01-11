@@ -40,7 +40,7 @@ public class MovieServlet extends HttpServlet {
         // handling the limit argument - default value 5
         int limit;
         if (!Strings.isNullOrEmpty(req.getParameter("limit"))) {limit = Integer.parseInt(req.getParameter("limit"));}
-            else {limit=5;}
+            else {limit=10;}
 
         //handling the genres argument
         String[] genres;
@@ -64,7 +64,7 @@ public class MovieServlet extends HttpServlet {
         } else {actors = new long[0];}
 
         // Find movie from the repository.
-        List<Movie> movie = MoviesRepository.getInstance().getMovie(title, offset, limit,genres,directors, actors);
+        List<Movie> movie = MoviesRepository.getInstance().getMovie(title,offset,limit,genres,directors, actors);
         if (!movie.isEmpty()) {
             ResponseHelper.writeJsonResponse(resp, movie);
         } else {

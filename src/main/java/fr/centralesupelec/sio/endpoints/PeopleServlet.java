@@ -19,7 +19,8 @@ public class PeopleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //TODO: add comments here
+        //people are filtered according to their speciality : ACTOR, PRODUCER, MUSICIAN...
+        //this paramater is mandatory
         String speciality = req.getParameter("spec");
 
         if (speciality != null) {
