@@ -21,12 +21,15 @@ public class ResponseHelper {
      * @param response: The object to serialize.
      * @throws IOException if the response cannot be written.
      */
+    // Configure the Gson builder - onetime for all
+    static GsonBuilder gsonBuilder = new GsonBuilder();
+
     public static void writeJsonResponse(HttpServletResponse resp, Object response) throws IOException {
         // Send a Content-Type header to inform the client of the format of the response.
         resp.setContentType(JSON_CONTENT_TYPE);
         // Configure the Gson library
         // TODO: Don't recreate a new Gson instance for each response, reuse (singleton?)
-        Gson gson = new GsonBuilder()
+        Gson gson = gsonBuilder
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
         // Write the object to the response
