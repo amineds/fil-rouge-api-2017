@@ -6,6 +6,8 @@
 
  - Genres : list all the movie genres
 
+ /genres
+
  - People : list people per speciality
 
  /people?spec=(actor,director,musician...)
