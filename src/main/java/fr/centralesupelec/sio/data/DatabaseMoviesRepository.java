@@ -30,6 +30,7 @@ class DatabaseMoviesRepository extends MoviesRepository {
     DatabaseMoviesRepository() {
         //read here files and initiate variables mMovies
         String movieDir;
+        //todo : find way to avoid setting hard the director
         movieDir = "C:\\Users\\benhamza\\AppData\\Local\\NoBackup\\Perso\\CentraleSupelec\\Java\\fil-rouge-api-2017\\src\\main\\java\\fr\\centralesupelec\\sio\\data\\rawdata\\movies.csv";
         //System.out.println("hello");
         Path moviesPath = FileSystems.getDefault().getPath(movieDir);
@@ -47,6 +48,7 @@ class DatabaseMoviesRepository extends MoviesRepository {
                 //setting movie genres - third column in the file - separated by a comma
                 EnumSet<MovieGenre> genresList = EnumSet.noneOf(MovieGenre.class);
 
+                //todo : find a way to user stream instead of for.
                 for (String genre : movieInfos[2].split(",")) {
                     MovieGenre mGenre;
                     // checking if the movie genres exist to avoid exception be raised

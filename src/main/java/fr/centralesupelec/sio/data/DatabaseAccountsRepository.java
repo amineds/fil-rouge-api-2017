@@ -2,6 +2,12 @@ package fr.centralesupelec.sio.data;
 
 import fr.centralesupelec.sio.model.Account;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
@@ -9,24 +15,44 @@ import java.util.function.Predicate;
 /**
  * A concrete {@link AccountsRepository} backed by an in-memory list of static {@link Account} entities.
  */
-public class DummyAccountsRepository extends AccountsRepository {
+public class DatabaseAccountsRepository extends AccountsRepository {
 
     // Hold entities in a simple list.
-    private final List<Account> mAccounts;
+    private List<Account> mAccounts = new ArrayList<Account>();
 
-    DummyAccountsRepository() {
-        // Define a single account
-        Account a1 = new Account();
-        a1.setUsername("admin@ecp.sio.fr");
-        a1.setPasswordHash("5E884898DA28047151D0E56F8DC6292773603D0D6AABBDD62A11EF721D1542D8");
-        // Warning: the list below will be immutable (be the contained entities can be modified)
-        mAccounts = Collections.singletonList(a1);
+    DatabaseAccountsRepository()  {
+        String accountDir;
+        //todo : find way to avoid setting hard the director
+        accountDir = "C:\\Users\\benhamza\\AppData\\Local\\NoBackup\\Perso\\CentraleSupelec\\Java\\fil-rouge-api-2017\\src\\main\\java\\fr\\centralesupelec\\sio\\data\\rawdata\\accounts.csv";
+        String workingDir = System.getProperty("user.dir");
+        System.out.println(workingDir);
+        Path accountPath = Paths.get(accountDir);
+        List<String> accountsRecords = null;
+        try {
+            accountsRecords = Files.readAllLines(accountPath);
+            accountsRecords.remove(0);
+            for (String accountsRecord : accountsRecords) {
+                Account ac = new Account();
+                String[] accountInfos = accountsRecord.split(";");
+                ac.setUsername(accountInfos[0]); //user name is found in the first column
+                ac.setPasswordHash(accountInfos[2]); //hashpass found in the second column
+                mAccounts.add(ac);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(mAccounts.size());
     }
 
     @Override
     public Account getAccount(String username) {
+        System.out.println(username);
+        for (Account mAccount : mAccounts) {
+            System.out.println(mAccount.getUsername());
+            System.out.println(mAccount.getPasswordHash());
+        }
         return mAccounts.stream()
-                .filter(account -> account.getUsername().equalsIgnoreCase(username))
+                .filter(account -> account.getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
     }

@@ -13,9 +13,8 @@ import java.util.regex.Pattern;
 /**
  * A filter to check that all requests to the API are authenticated with a valid token.
  */
-// TODO: Configure the filter to match ALL endpoints (except for the login endpoint)
 // This annotation replaces the registration of the filter and its URL mappings in web.xml.
-//@WebFilter(urlPatterns = {"/movies","/people","/genres"})
+@WebFilter(urlPatterns = {"/movies","/people","/genres"})
 public class AuthFilter implements Filter {
 
     // Pre-compile a Regex matcher for the Authorization header

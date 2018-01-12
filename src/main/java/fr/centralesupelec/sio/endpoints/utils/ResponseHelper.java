@@ -28,7 +28,6 @@ public class ResponseHelper {
         // Send a Content-Type header to inform the client of the format of the response.
         resp.setContentType(JSON_CONTENT_TYPE);
         // Configure the Gson library
-        // TODO: Don't recreate a new Gson instance for each response, reuse (singleton?)
         Gson gson = gsonBuilder
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();

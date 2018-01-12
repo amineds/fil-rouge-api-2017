@@ -2,6 +2,8 @@ package fr.centralesupelec.sio.data;
 
 import fr.centralesupelec.sio.model.Account;
 
+import java.io.IOException;
+
 /**
  * A data repository to expose account-related entities.
  */
@@ -14,7 +16,8 @@ public abstract class AccountsRepository {
     // Singleton pattern
     public static AccountsRepository getInstance() {
         if (sRepository == null) {
-            sRepository = new DummyAccountsRepository();
+            //sRepository = new DummyAccountsRepository();
+            sRepository = new DatabaseAccountsRepository();
         }
         return sRepository;
     }

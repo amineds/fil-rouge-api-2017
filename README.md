@@ -1,8 +1,10 @@
- Java API to manage movies
+ Java API to manage movies (database is in the format of csv files)
 
  4 main endpoints :
 
- - Authentication :
+ - Authentication : get a token
+
+ /auth/token
 
  - Genres : list all the movie genres
 
